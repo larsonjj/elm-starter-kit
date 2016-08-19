@@ -60,7 +60,7 @@
   },
   "ava": {
     "files": [
-      "**/__tests__/*.test.js"
+      "**/tests/*.test.js"
     ],
     "source": [
       "js/**/*.js"
