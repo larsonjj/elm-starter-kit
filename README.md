@@ -115,9 +115,11 @@ See [npm run-script](https://docs.npmjs.com/cli/run-script).
 - `elm/TestRunner.elm` - the entry point for executing tests and bootstrapping the actual test runner
 - `elm/Tests.elm` - the main file loading and exposing all the test suites
 
-### Sass
+### Styles
 
-- `styles/` - all the Sass application styles
+- All styles are implemented inline using Elm.
+
+> NOTE: Will use [elm-css](https://github.com/rtfeldman/elm-css) once it is more stable.
 
 ### JavaScript
 
