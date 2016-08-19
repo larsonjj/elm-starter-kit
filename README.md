@@ -1,9 +1,8 @@
-# Elm App Boilerplate
+# Elm Starter Kit
 
-[![Run Status](https://api.shippable.com/projects/572133332a8192902e1e2958/badge?branch=master)](https://app.shippable.com/projects/572133332a8192902e1e2958)
+A Starter kit for working with [Elm] and ES2015+ Javascript.
 
-Provides an efficient development workflow and a starting point for building Elm applications.
-
+Based off the awesome work done on [elm-app-boilerplate](https://github.com/gkubisa/elm-app-boilerplate)
 
 ## Features
 
@@ -112,90 +111,20 @@ See [npm run-script](https://docs.npmjs.com/cli/run-script).
 - `elm/` - Elm source files
 - `elm/Main.elm` - Elm application entry point
 - `elm/App/` - the namespace for all application Elm modules
-- `elm/test/` - directory containing all Elm tests
-- `elm/test/TestRunner.elm` - the entry point for executing tests and bootstrapping the actual test runner
-- `elm/test/Tests.elm` - the main file loading and exposing all the test suites
+- `elm/App/Tests/` - directory containing a sample Elm test
+- `elm/TestRunner.elm` - the entry point for executing tests and bootstrapping the actual test runner
+- `elm/Tests.elm` - the main file loading and exposing all the test suites
 
-### Semantic UI
+### Sass
 
-- `styles/` - all the application styles
-- `styles/theme.config` - specifies which theme to use for each components
-- `styles/site/` - project-specific configuration and overrides
-
-The following files and directories are copied from `semantic-ui-less` node module by the `postinstall` script and should not be modified manually.
-
-- `styles/definitions/` - Semantic UI component definitions
-- `styles/themes/` - Semantic UI themes
-- `styles/semantic.less` - includes all Semantic UI components
-- `styles/theme.less` - internal theme loading helper
+- `styles/` - all the Sass application styles
 
 ### JavaScript
 
 - `js/` - contains all application JavaScript code
 - `js/main.js` - entry point to the application JavaScript code
-- `js/semantic-ui/` - scripts for Semantic UI integration
-- `js-test/` - directory containing all JavaScript tests
-- `js-test/test.js` - entry point for JavaScript tests - automatically loads all `*.test.js` files in `js-test`
+- `js/tests/` - directory containing a sample JavaScript test
 
 ### HTML
 
 - `html/index.html` - overall application entry point
-
-### Docker
-
-- `Dockerfile` - instructions for building a docker image
-- `config` - configuration for the services embedded in the docker image
-
-
-## Docker
-
-This section describes the Docker-related commands which are used by the Shippable continuous integration and deployment process. Docker version 1.11.1 or later is required.
-
-Creating a docker image containing a copy of the `./dist` directory which is served by [nginx](https://www.nginx.com/) on port 80:
-
-```
-npm run docker-build
-```
-
-Pushing the created docker image to Docker Hub with the tag `latest`:
-
-```
-npm run docker-push
-```
-
-Testing the created docker image locally:
-
-```
-npm run docker-run # creates and starts a Docker container
-# the app is now available at http://localhost:8081
-
-npm run docker-start # starts an existing container
-npm run docker-stop # stops an existing container
-npm run docker-rm # removes an existing, stopped container
-```
-
-
-## Semantic UI
-
-Semantic UI provides a lot of ready-made, customizable UI components and helps to implement the design of the application quickly and consistently. It was included in `elm-app-boilerplate` because it integrates nicely with Elm.
-
-The main idea behind the integration is that Elm handles all the application logic, integration with the backend and rendering of the HTML. Semantic UI on the other hand is responsible for making the application look nice on the screen.
-
-### Integration
-
-Semantic UI `globals`, `views`, `collections` and `elements` are defined using LESS only (except for `globals/site.js` which handles the global configuration), so they work seamlessly with Elm out of the box.
-
-The `modules` require some JavaScript to work and must be initialized by the application. However, some (if not all) `modules` can be automatically managed in JavaScript in a way that is completely transparent to the Elm code. The demo page of `elm-app-boilerplate` contains some examples of that technique. _Pull requests with examples for other `modules` welcome!_
-
-The `behaviors` would certainly be the most difficult to integrate, however, they are probably also the least likely to be useful to an Elm application. Specifically, the interaction with the backend (`API` behaviour) is better handled in Elm. `Form validation` could be useful, however, [Elm validation](https://github.com/etaque/elm-simple-form) is also available. The `visibility` behaviour is the one which cannot be easily done in Elm, so the integration might be worth the effort.
-
-### Usage
-
-The application can be styled using the following techniques, in order of preference:
-
-1. Select suitable themes for the components by modifying `styles/theme.config`.
-2. Configure the Semantic UI variables in `styles/site/**/*.variables`.
-3. Add custom LESS code to modify some components in `styles/site/**/*.overrides`.
-4. Add any other custom LESS code to `styles/site/globals/site.overrides`, or to custom `*.less` files it imports.
-
-Please refer to [Semantic UI](http://semantic-ui.com/) documentation for more details, including defining your own reusable themes.

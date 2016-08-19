@@ -2,7 +2,6 @@ import path from 'path'
 import webpack from 'webpack'
 import autoprefixer from 'autoprefixer'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
-import ExtractTextPlugin from 'extract-text-webpack-plugin'
 
 const START = process.env.npm_lifecycle_event === 'start'
 const BUILD = process.env.npm_lifecycle_event === 'build'
@@ -51,14 +50,10 @@ const config = {
   }
 }
 
-if (START) {
-  config.module.loaders.push({ test: /\.scss$/, loader: 'style!css!postcss-loader!sass' })
-}
+// START: place to updated webpack config for development
+// if (START) {}
+// BUILD: place to updated webpack config for production
 if (BUILD) {
-  // put styles in a separate file
-  config.module.loaders.push({ test: /\.scss$/, loader: ExtractTextPlugin.extract('style-loader', 'css!postcss-loader!sass') })
-  config.plugins.push(new ExtractTextPlugin('[hash].css'))
-
   // disable UglifyJs warnings
   config.plugins.push(new webpack.optimize.UglifyJsPlugin({compress: {warnings: false }}))
 }
