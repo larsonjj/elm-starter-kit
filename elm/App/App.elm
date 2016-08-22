@@ -57,6 +57,7 @@ view model =
         [ page model ]
 
 
+page : Model -> Html Msg
 page model =
     case model.route of
         Routing.HomeRoute ->
