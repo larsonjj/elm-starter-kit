@@ -10,7 +10,7 @@
     "test:js": "nyc ava --tap | tap-spec",
     "tdd": "run-p 'tdd:*'",
     "tdd:elm": "nodemon --watch 'elm/' --watch 'elm-test/' --ext elm --exec 'npm run test:elm'",
-    "tdd:js": "ava --watch --tap | tap-spec",
+    "tdd:js": "ava --watch",
     "clean": "rm -rf dist",
     "elm": "elm",
     "elm-repl": "elm repl",
