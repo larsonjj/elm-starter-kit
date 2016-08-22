@@ -6,5 +6,5 @@
 /styles/theme.less
 /styles/semantic.less
 /coverage/
-.nyc-output/
-coverage/
+/.nyc_output/
+/coverage/

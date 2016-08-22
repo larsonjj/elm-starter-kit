@@ -6,7 +6,7 @@
     "start": "webpack-dev-server --hot --inline",
     "build": "cross-env BABEL_ENV=production npm run clean && webpack -p --bail",
     "test": "run-p 'test:*'",
-    "test:elm": "FILE=$(mktemp elm.XXXX.test.js) && elm-make elm-test/TestRunner.elm --output $FILE && node $FILE; RESULT=$?; rm -f $FILE; exit $RESULT",
+    "test:elm": "FILE=$(mktemp elm.XXXX.test.js) && elm-make elm/TestRunner.elm --output $FILE && node $FILE; RESULT=$?; rm -f $FILE; exit $RESULT",
     "test:js": "nyc ava --tap | tap-spec",
     "tdd": "run-p 'tdd:*'",
     "tdd:elm": "nodemon --watch 'elm/' --watch 'elm-test/' --ext elm --exec 'npm run test:elm'",
@@ -27,7 +27,7 @@
   "license": "MIT",
   "repository": "larsonjj/elm-starter-kit",
   "devDependencies": {
-    "ava": "^0.16.0",
+    "ava": "^0.15.0",
     "babel-core": "^6.9.0",
     "babel-eslint": "^6.0.4",
     "babel-loader": "^6.2.4",
