@@ -1,6 +1,6 @@
 {
   "name": "elm-starter-kit",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Elm starter kit",
   "scripts": {
     "start": "webpack-dev-server --hot --inline",
