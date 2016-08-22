@@ -11,8 +11,10 @@ testSuite : Test
 testSuite =
     suite "App.Sample"
         [ suite "sum"
-            [ test "should return a sum of 2 Ints" <| assertEqual 8 (sum 3 5)
-            , test "should return a sum of 2 Floats" <| assertEqual -10.5 (sum -20.5 10)
+            [ test "should return a sum of 2 Ints" <|
+                assertEqual 8 (sum 3 5)
+            , test "should return a sum of 2 Floats" <|
+                assertEqual -10.5 (sum -20.5 10)
             ]
         , evidenceToTest
             << quickCheck

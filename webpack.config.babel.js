@@ -1,6 +1,5 @@
 import path from 'path'
 import webpack from 'webpack'
-import autoprefixer from 'autoprefixer'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 
 const START = process.env.npm_lifecycle_event === 'start'
@@ -37,8 +36,6 @@ const config = {
       minify: require('./html-minifier.json')
     })
   ],
-
-  postcss: [ autoprefixer({ browsers: ['last 2 versions']} ) ],
 
   eslint: {
     failOnWarning: true,

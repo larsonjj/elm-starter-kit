@@ -1,14 +1,14 @@
 module Main exposing (..)
 
 import Html.App
-import App.Demo as Demo
+import App.Todo as Todo
 
 
 main : Program Never
 main =
     Html.App.program
-        { init = Demo.init
-        , view = Demo.view
-        , update = Demo.update
-        , subscriptions = Demo.subscriptions
+        { init = Todo.init
+        , view = Todo.view
+        , update = Todo.update
+        , subscriptions = Todo.subscriptions
         }
