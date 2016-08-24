@@ -1,6 +1,7 @@
 module App.App exposing (..)
 
 import Html exposing (..)
+import Html.App
 import App.Screens.Home.Home as Home
 import App.Screens.Profile.Profile as Profile
 import App.Screens.NotFound.NotFound as NotFound
@@ -44,7 +45,7 @@ init ( route, location ) =
 
 
 type Msg
-    = Nothing
+    = ProfileMsg Profile.Msg
 
 
 
@@ -64,7 +65,7 @@ page model =
             Home.view model.homeModel
 
         Routing.ProfileRoute ->
-            Profile.view model.profileModel
+            Html.App.map ProfileMsg (Profile.view model.profileModel)
 
         Routing.NotFoundRoute ->
             NotFound.view model.notFoundModel
@@ -74,27 +75,18 @@ page model =
 -- Update
 
 
-update : Msg -> Model -> ( Model, Cmd a )
-update a model =
-    ( model, Cmd.none )
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+    case msg of
+        ProfileMsg subMsg ->
+            let
+                ( updatedProfileModel, profileCmd ) =
+                    Profile.update subMsg model.profileModel
+            in
+                ( { model | profileModel = updatedProfileModel }, Cmd.map ProfileMsg profileCmd )
 
 
 
--- update : Msg -> Model -> ( Model, Cmd Msg )
--- update msg model =
---     case msg of
---         HomeMsg subMsg ->
---             let
---                 ( updatedHome, cmd ) =
---                     Home.update subMsg model.home
---             in
---                 ( { model | home = updatedhome }, Cmd.none )
---         ProfileMsg subMsg ->
---             let
---                 ( updatedProfile, cmd ) =
---                     Profile.update subMsg model.home
---             in
---                 ( { model | home = updatedhome }, Cmd.map none )
 -- Subscriptions
 
 
