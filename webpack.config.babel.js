@@ -5,8 +5,14 @@ import HtmlWebpackPlugin from 'html-webpack-plugin'
 const START = process.env.npm_lifecycle_event === 'start'
 const BUILD = process.env.npm_lifecycle_event === 'build'
 
+const entry = ['./js/main.js']
+
+if (START) {
+    entry.concat('webpack-dev-server/client?http://localhost:8080');
+}
+
 const config = {
-  entry: './js/main.js',
+  entry: entry,
 
   output: {
     path: './dist',
@@ -25,7 +31,7 @@ const config = {
     loaders: [
       { test: /\.js$/, exclude: [/node_modules/], loader: 'babel-loader' },
       { test: /\.(png|jpg|gif|svg|ttf|otf|eot|svg|woff2?)$/, loader: 'url-loader?limit=8192' },
-      { test: /\.elm$/, exclude: [/elm-stuff/, /node_modules/], loader: (START ? 'elm-hot!' : '') + 'elm-webpack?warn&pathToMake=node_modules/.bin/elm-make' }
+      { test: /\.elm$/, exclude: [/elm-stuff/, /node_modules/], loader: 'elm-webpack?warn&pathToMake=node_modules/.bin/elm-make' }
     ]
   },
 
