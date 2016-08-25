@@ -3,7 +3,7 @@ module App.Screens.Profile.Profile exposing (..)
 import Html exposing (div, h1, form, button, text, Html)
 import Html.App
 import Html.Attributes exposing (id, type')
-import App.Components.Input.Input as Input
+import App.Components.Input.Input as Input exposing (defaultProps)
 
 
 -- Model
@@ -11,20 +11,29 @@ import App.Components.Input.Input as Input
 
 type alias Model =
     { pageName : String
-    , inputModel : Input.Model
+    , firstNameModel : Input.Model
+    , lastNameModel : Input.Model
     }
 
 
 initialModel : Model
 initialModel =
     { pageName = "Profile"
-    , inputModel = Input.initialModel
+    , firstNameModel =
+        Input.initialModel
+            { defaultProps
+                | label = "First Name"
+                , id = "first-name"
+                , initialValue = "Jake"
+            }
+    , lastNameModel =
+        Input.initialModel
+            { defaultProps
+                | label = "Last Name"
+                , id = "last-name"
+                , initialValue = "Larson"
+            }
     }
-
-
-init : ( Model, Cmd Msg )
-init =
-    ( initialModel, Cmd.none )
 
 
 
@@ -32,7 +41,8 @@ init =
 
 
 type Msg
-    = InputMsg Input.Msg
+    = FirstNameInputMsg Input.Msg
+    | LastNameInputMsg Input.Msg
 
 
 
@@ -42,12 +52,19 @@ type Msg
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        InputMsg subMsg ->
+        FirstNameInputMsg subMsg ->
             let
-                ( updatedInputModel, inputCmd ) =
-                    Input.update subMsg model.inputModel
+                ( updatedInputModel, firstNameCmd ) =
+                    Input.update subMsg model.firstNameModel
             in
-                ( { model | inputModel = updatedInputModel }, Cmd.map InputMsg inputCmd )
+                ( { model | firstNameModel = updatedInputModel }, Cmd.map FirstNameInputMsg firstNameCmd )
+
+        LastNameInputMsg subMsg ->
+            let
+                ( updatedInputModel, lastNameCmd ) =
+                    Input.update subMsg model.lastNameModel
+            in
+                ( { model | lastNameModel = updatedInputModel }, Cmd.map LastNameInputMsg lastNameCmd )
 
 
 
@@ -59,7 +76,8 @@ view model =
     div []
         [ h1 [] [ text (model.pageName ++ "Page") ]
         , form [ id "profile-form" ]
-            [ Html.App.map InputMsg (Input.view model.inputModel)
+            [ Html.App.map FirstNameInputMsg (Input.view model.firstNameModel)
+            , Html.App.map LastNameInputMsg (Input.view model.lastNameModel)
             , button [ type' "submit" ] [ text "Submit" ]
             ]
         ]
