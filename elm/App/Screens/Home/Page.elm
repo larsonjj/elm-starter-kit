@@ -1,4 +1,4 @@
-module App.Components.Radio.Radio exposing (..)
+module App.Screens.Home.Page exposing (..)
 
 import Html exposing (..)
 
@@ -7,13 +7,13 @@ import Html exposing (..)
 
 
 type alias Model =
-    { component : String
+    { pageName : String
     }
 
 
 initialModel : Model
 initialModel =
-    { component = "Radio"
+    { pageName = "Home"
     }
 
 
@@ -28,4 +28,4 @@ init =
 
 view : Model -> Html div
 view model =
-    div [] [ text (model.component ++ "Component") ]
+    div [] [ text (model.pageName ++ "Page") ]

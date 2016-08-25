@@ -1,10 +1,11 @@
 module Tests exposing (testSuite)
 
 import ElmTest exposing (Test, suite)
-import App.Tests.SampleTest
+import App.Utils.Tests.HtmlTest
 
 
 testSuite : Test
 testSuite =
     suite "All tests"
-        [ App.Tests.SampleTest.testSuite ]
+        [ App.Utils.Tests.HtmlTest.testSuite
+        ]

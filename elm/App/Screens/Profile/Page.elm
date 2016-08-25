@@ -1,9 +1,9 @@
-module App.Screens.Profile.Profile exposing (..)
+module App.Screens.Profile.Page exposing (..)
 
 import Html exposing (div, h1, form, button, text, Html)
 import Html.App
 import Html.Attributes exposing (id, type')
-import App.Components.Input.Input as Input exposing (defaultProps)
+import App.Components.Input as Input exposing (defaultProps)
 
 
 -- Model

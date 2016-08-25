@@ -1,8 +1,9 @@
-module App.Components.Input.Input exposing (Model, Msg, defaultProps, initialModel, update, view)
+module App.Components.Input exposing (Model, Msg, defaultProps, initialModel, update, view)
 
 import Html exposing (Html, input, div, text, label, span)
 import Html.Attributes exposing (type', value, placeholder, style, for, name)
 import Html.Events exposing (onInput, onFocus, onBlur)
+import App.Utils.Html exposing (onlyIf)
 
 
 -- Model
@@ -104,11 +105,3 @@ view model =
                 []
             , onlyIf (model.props.error /= "") (span [ style [ ( "color", "#c00" ) ] ] [ text model.props.error ])
             ]
-
-
-onlyIf : Bool -> Html a -> Html a
-onlyIf condition html =
-    if condition then
-        html
-    else
-        Html.text ""
