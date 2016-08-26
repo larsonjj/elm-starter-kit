@@ -47,10 +47,7 @@ defaultProps =
     , label = ""
     , placeholder = ""
     , error = ""
-    , options =
-        [ { label = "Radio 1", value = "value1" }
-        , { label = "Radio 2", value = "value2" }
-        ]
+    , options = []
     }
 
 
