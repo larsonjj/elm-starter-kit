@@ -1,8 +1,8 @@
-module App.Components.Input exposing (Model, Msg, Props, defaultProps, initialModel, update, view)
+module App.Components.Checkbox exposing (Model, Msg, Props, defaultProps, initialModel, update, view)
 
 import Html exposing (Html, input, div, text, label, span)
-import Html.Attributes exposing (type', value, placeholder, style, for, name)
-import Html.Events exposing (onInput, onFocus, onBlur)
+import Html.Attributes exposing (type', checked, placeholder, style, for, name)
+import Html.Events exposing (onCheck, onFocus, onBlur)
 import App.Utils.Html exposing (onlyIf)
 
 
@@ -13,7 +13,7 @@ type alias Props =
     { id : String
     , class : String
     , type' : String
-    , initialValue : String
+    , initialChecked : Bool
     , label : String
     , placeholder : String
     , error : String
@@ -21,7 +21,7 @@ type alias Props =
 
 
 type alias Model =
-    { value : String
+    { checked : Bool
     , visited : Bool
     , touched : Bool
     , dirty : Bool
@@ -32,9 +32,9 @@ type alias Model =
 defaultProps : Props
 defaultProps =
     { id = ""
-    , class = "input"
-    , type' = "text"
-    , initialValue = ""
+    , class = "checkbox"
+    , type' = "checkbox"
+    , initialChecked = False
     , label = ""
     , placeholder = ""
     , error = ""
@@ -43,7 +43,7 @@ defaultProps =
 
 initialModel : Props -> Model
 initialModel props =
-    { value = ""
+    { checked = False
     , visited = False
     , touched = False
     , dirty = False
@@ -56,9 +56,9 @@ initialModel props =
 
 
 type Msg
-    = InputChange String
-    | InputFocus
-    | InputBlur
+    = CheckboxChange Bool
+    | CheckboxFocus
+    | CheckboxBlur
 
 
 
@@ -68,13 +68,13 @@ type Msg
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        InputChange newVal ->
-            ( { model | value = newVal, dirty = True }, Cmd.none )
+        CheckboxChange newChecked ->
+            ( { model | checked = newChecked, dirty = True }, Cmd.none )
 
-        InputFocus ->
+        CheckboxFocus ->
             ( { model | touched = True }, Cmd.none )
 
-        InputBlur ->
+        CheckboxBlur ->
             ( { model | visited = True }, Cmd.none )
 
 
@@ -85,11 +85,11 @@ update msg model =
 view : Model -> Html Msg
 view model =
     let
-        initialValue =
-            if model.value == "" && not model.dirty then
-                model.props.initialValue
+        initialChecked =
+            if model.checked == False && not model.dirty then
+                model.props.initialChecked
             else
-                model.value
+                model.checked
     in
         div []
             [ onlyIf (model.props.label /= "") (label [ for model.props.id ] [ text model.props.label ])
@@ -97,10 +97,10 @@ view model =
                 [ type' model.props.type'
                 , name model.props.id
                 , placeholder model.props.placeholder
-                , value initialValue
-                , onInput InputChange
-                , onFocus InputFocus
-                , onBlur InputBlur
+                , checked initialChecked
+                , onCheck CheckboxChange
+                , onFocus CheckboxFocus
+                , onBlur CheckboxBlur
                 ]
                 []
             , onlyIf (model.props.error /= "") (span [ style [ ( "color", "#c00" ) ] ] [ text model.props.error ])

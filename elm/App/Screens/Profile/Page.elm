@@ -3,7 +3,8 @@ module App.Screens.Profile.Page exposing (..)
 import Html exposing (div, h1, form, button, text, Html)
 import Html.App
 import Html.Attributes exposing (id, type')
-import App.Components.Input as Input exposing (defaultProps)
+import App.Components.Input as Input
+import App.Components.Checkbox as Checkbox
 
 
 -- Model
@@ -13,7 +14,18 @@ type alias Model =
     { pageName : String
     , firstNameModel : Input.Model
     , lastNameModel : Input.Model
+    , employedModel : Checkbox.Model
     }
+
+
+inputDefaultProps : Input.Props
+inputDefaultProps =
+    Input.defaultProps
+
+
+checkboxDefaultProps : Checkbox.Props
+checkboxDefaultProps =
+    Checkbox.defaultProps
 
 
 initialModel : Model
@@ -21,17 +33,24 @@ initialModel =
     { pageName = "Profile"
     , firstNameModel =
         Input.initialModel
-            { defaultProps
+            { inputDefaultProps
                 | label = "First Name"
                 , id = "first-name"
                 , initialValue = "Jake"
             }
     , lastNameModel =
         Input.initialModel
-            { defaultProps
+            { inputDefaultProps
                 | label = "Last Name"
                 , id = "last-name"
                 , initialValue = "Larson"
+            }
+    , employedModel =
+        Checkbox.initialModel
+            { checkboxDefaultProps
+                | label = "Employed"
+                , id = "employed"
+                , initialChecked = False
             }
     }
 
@@ -43,6 +62,7 @@ initialModel =
 type Msg
     = FirstNameInputMsg Input.Msg
     | LastNameInputMsg Input.Msg
+    | EmployedCheckBoxMsg Checkbox.Msg
 
 
 
@@ -54,17 +74,24 @@ update msg model =
     case msg of
         FirstNameInputMsg subMsg ->
             let
-                ( updatedInputModel, firstNameCmd ) =
+                ( newModel, newCmd ) =
                     Input.update subMsg model.firstNameModel
             in
-                ( { model | firstNameModel = updatedInputModel }, Cmd.map FirstNameInputMsg firstNameCmd )
+                ( { model | firstNameModel = newModel }, Cmd.map FirstNameInputMsg newCmd )
 
         LastNameInputMsg subMsg ->
             let
-                ( updatedInputModel, lastNameCmd ) =
+                ( newModel, newCmd ) =
                     Input.update subMsg model.lastNameModel
             in
-                ( { model | lastNameModel = updatedInputModel }, Cmd.map LastNameInputMsg lastNameCmd )
+                ( { model | lastNameModel = newModel }, Cmd.map LastNameInputMsg newCmd )
+
+        EmployedCheckBoxMsg subMsg ->
+            let
+                ( newModel, newCmd ) =
+                    Checkbox.update subMsg model.employedModel
+            in
+                ( { model | employedModel = newModel }, Cmd.map EmployedCheckBoxMsg newCmd )
 
 
 
@@ -78,6 +105,7 @@ view model =
         , form [ id "profile-form" ]
             [ Html.App.map FirstNameInputMsg (Input.view model.firstNameModel)
             , Html.App.map LastNameInputMsg (Input.view model.lastNameModel)
+            , Html.App.map EmployedCheckBoxMsg (Checkbox.view model.employedModel)
             , button [ type' "submit" ] [ text "Submit" ]
             ]
         ]
