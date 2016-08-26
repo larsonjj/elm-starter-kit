@@ -1,10 +1,12 @@
-module App.Screens.Profile.Page exposing (..)
+module App.Screens.Profile exposing (..)
 
 import Html exposing (div, h1, form, button, text, Html)
 import Html.App
 import Html.Attributes exposing (id, type')
-import App.Components.Input as Input
-import App.Components.Checkbox as Checkbox
+import App.Components.Toolbox.Input as Input
+import App.Components.Toolbox.Checkbox as Checkbox
+import App.Components.Toolbox.Dropdown as Dropdown
+import App.Components.Toolbox.RadioGroup as RadioGroup
 
 
 -- Model
@@ -15,6 +17,8 @@ type alias Model =
     , firstNameModel : Input.Model
     , lastNameModel : Input.Model
     , employedModel : Checkbox.Model
+    , platformModel : Dropdown.Model
+    , genderModel : RadioGroup.Model
     }
 
 
@@ -26,6 +30,16 @@ inputDefaultProps =
 checkboxDefaultProps : Checkbox.Props
 checkboxDefaultProps =
     Checkbox.defaultProps
+
+
+dropdownDefaultProps : Dropdown.Props
+dropdownDefaultProps =
+    Dropdown.defaultProps
+
+
+radioGroupDefaultProps : RadioGroup.Props
+radioGroupDefaultProps =
+    RadioGroup.defaultProps
 
 
 initialModel : Model
@@ -52,6 +66,29 @@ initialModel =
                 , id = "employed"
                 , initialChecked = False
             }
+    , platformModel =
+        Dropdown.initialModel
+            { dropdownDefaultProps
+                | label = "Employed"
+                , id = "employed"
+                , options =
+                    [ { label = "Select platform", value = "" }
+                    , { label = "iOS", value = "ios" }
+                    , { label = "Android", value = "android" }
+                    ]
+            }
+    , genderModel =
+        RadioGroup.initialModel
+            { radioGroupDefaultProps
+                | label = "Gender"
+                , name = "gender"
+                , initialValue = "male"
+                , options =
+                    [ { label = "Male", value = "male" }
+                    , { label = "Female", value = "female" }
+                    , { label = "Other", value = "other" }
+                    ]
+            }
     }
 
 
@@ -63,6 +100,8 @@ type Msg
     = FirstNameInputMsg Input.Msg
     | LastNameInputMsg Input.Msg
     | EmployedCheckBoxMsg Checkbox.Msg
+    | PlatformDropdownMsg Dropdown.Msg
+    | GenderRadioGroupMsg RadioGroup.Msg
 
 
 
@@ -93,6 +132,20 @@ update msg model =
             in
                 ( { model | employedModel = newModel }, Cmd.map EmployedCheckBoxMsg newCmd )
 
+        PlatformDropdownMsg subMsg ->
+            let
+                ( newModel, newCmd ) =
+                    Dropdown.update subMsg model.platformModel
+            in
+                ( { model | platformModel = newModel }, Cmd.map PlatformDropdownMsg newCmd )
+
+        GenderRadioGroupMsg subMsg ->
+            let
+                ( newModel, newCmd ) =
+                    RadioGroup.update subMsg model.genderModel
+            in
+                ( { model | genderModel = newModel }, Cmd.map GenderRadioGroupMsg newCmd )
+
 
 
 -- View
@@ -106,6 +159,8 @@ view model =
             [ Html.App.map FirstNameInputMsg (Input.view model.firstNameModel)
             , Html.App.map LastNameInputMsg (Input.view model.lastNameModel)
             , Html.App.map EmployedCheckBoxMsg (Checkbox.view model.employedModel)
+            , Html.App.map PlatformDropdownMsg (Dropdown.view model.platformModel)
+            , Html.App.map GenderRadioGroupMsg (RadioGroup.view model.genderModel)
             , button [ type' "submit" ] [ text "Submit" ]
             ]
         ]

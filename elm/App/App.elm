@@ -2,9 +2,9 @@ module App.App exposing (..)
 
 import Html exposing (..)
 import Html.App
-import App.Screens.Home.Page as Home
-import App.Screens.Profile.Page as Profile
-import App.Screens.NotFound.Page as NotFound
+import App.Screens.Home as Home
+import App.Screens.Profile as Profile
+import App.Screens.NotFound as NotFound
 import App.Routing as Routing
 import Hop.Types exposing (Location)
 

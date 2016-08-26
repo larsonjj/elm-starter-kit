@@ -1,4 +1,4 @@
-module App.Screens.NotFound.Page exposing (..)
+module App.Screens.Home exposing (..)
 
 import Html exposing (..)
 
@@ -13,7 +13,7 @@ type alias Model =
 
 initialModel : Model
 initialModel =
-    { pageName = "Not Found"
+    { pageName = "Home"
     }
 
 

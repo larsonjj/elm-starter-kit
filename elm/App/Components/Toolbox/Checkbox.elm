@@ -1,4 +1,4 @@
-module App.Components.Checkbox exposing (Model, Msg, Props, defaultProps, initialModel, update, view)
+module App.Components.Toolbox.Checkbox exposing (Model, Msg, Props, defaultProps, initialModel, update, view)
 
 import Html exposing (Html, input, div, text, label, span)
 import Html.Attributes exposing (type', checked, placeholder, style, for, name)
@@ -85,6 +85,7 @@ update msg model =
 view : Model -> Html Msg
 view model =
     let
+        initialChecked : Bool
         initialChecked =
             if model.checked == False && not model.dirty then
                 model.props.initialChecked
