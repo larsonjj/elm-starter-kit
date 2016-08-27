@@ -130,3 +130,104 @@ See [npm run-script](https://docs.npmjs.com/cli/run-script).
 ### HTML
 
 - `html/index.html` - overall application entry point
+
+
+## Elm application
+
+### Dispatch/Respond (aka Pub/Sub)
+
+A custom solution for inter-communication between Elm modules has been 
+implemented within this application using [ports](http://guide.elm-lang.org/interop/javascript.html).
+It is based on this [post](https://groups.google.com/forum/#!msg/elm-discuss/i99LBvYSkpY/yQyk6WB0AAAJ) 
+and overall, this makes it much easier to  send/recieve data within modules 
+regardless of where they are in the VDOM tree
+
+#### Dispatch action
+
+```elm
+module ChildOne exposing (..)
+
+import Ports exposing (..)
+import Html exposing (Html, button, text)
+import Html.Events exposing (onClick)
+
+
+type alias Model = String
+
+
+type Msg
+    = Click
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    Sub.none
+
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+    case msg of
+        Click ->
+            ( model, dispatch "Hello World!" )
+
+
+view : Model -> Html Msg
+view model =
+    button [ onClick Click ] [text "Click Me"]
+```
+
+#### Respond to dispatched action
+
+```elm
+module ChildTwo exposing (..)
+
+import Ports exposing (..)
+import Html exposing (Html, text)
+
+type alias Model = 
+        { message : String }
+
+type Msg
+    = ChangeMessage String
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    respond ChangeMessage
+
+
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+    case msg of
+        ChangeMessage msg ->
+            ({ model | message = msg }, Cmd.none )
+
+
+view : Model -> Html Msg
+view model =
+    text model.message
+```
+
+#### Wire everything up
+
+```elm
+-- elm/App/App.elm
+module App exposing (..)
+
+import ChildOne
+import ChildTwo
+
+type alias Model =
+    { childOneModel : ChildOne.model
+    , childTwoModel : ChildTwo.model
+    }
+
+type Msg
+    = ChildOneMsg ChildOne.Msg
+    | ChildTwoMsg ChildTwo.Msg
+
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    Sub.batch
+        [ Sub.map ChildOneMsg (ChildOne.subscriptions model. childOneModel)
+        , Sub.map ChildTwoMsg (ChildTwo.subscriptions model. childTwoModel)
+        ]
+```
