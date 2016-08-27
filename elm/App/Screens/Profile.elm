@@ -1,6 +1,7 @@
 module App.Screens.Profile exposing (..)
 
 import Html exposing (div, h1, form, button, text, Html)
+import Html.Events exposing (onSubmit)
 import Html.App
 import Html.Attributes exposing (id, type')
 import App.Components.Toolbox.Input as Input
@@ -14,6 +15,8 @@ import App.Components.Toolbox.RadioGroup as RadioGroup
 
 type alias Model =
     { pageName : String
+    , submitted : Bool
+    , error : String
     , firstNameModel : Input.Model
     , lastNameModel : Input.Model
     , employedModel : Checkbox.Model
@@ -45,6 +48,8 @@ radioGroupDefaultProps =
 initialModel : Model
 initialModel =
     { pageName = "Profile"
+    , submitted = False
+    , error = ""
     , firstNameModel =
         Input.initialModel
             { inputDefaultProps
@@ -102,6 +107,7 @@ type Msg
     | EmployedCheckBoxMsg Checkbox.Msg
     | PlatformDropdownMsg Dropdown.Msg
     | GenderRadioGroupMsg RadioGroup.Msg
+    | FormSubmit
 
 
 
@@ -146,6 +152,9 @@ update msg model =
             in
                 ( { model | genderModel = newModel }, Cmd.map GenderRadioGroupMsg newCmd )
 
+        FormSubmit ->
+            ( { model | submitted = True }, Cmd.none )
+
 
 
 -- View
@@ -155,7 +164,7 @@ view : Model -> Html Msg
 view model =
     div []
         [ h1 [] [ text (model.pageName ++ "Page") ]
-        , form [ id "profile-form" ]
+        , form [ id "profile-form", onSubmit FormSubmit ]
             [ Html.App.map FirstNameInputMsg (Input.view model.firstNameModel)
             , Html.App.map LastNameInputMsg (Input.view model.lastNameModel)
             , Html.App.map EmployedCheckBoxMsg (Checkbox.view model.employedModel)
