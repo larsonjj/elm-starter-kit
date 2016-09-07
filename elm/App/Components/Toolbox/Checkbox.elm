@@ -43,7 +43,7 @@ defaultProps =
 
 initialModel : Props -> Model
 initialModel props =
-    { checked = False
+    { checked = props.initialChecked
     , visited = False
     , touched = False
     , dirty = False
@@ -84,25 +84,17 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    let
-        initialChecked : Bool
-        initialChecked =
-            if model.checked == False && not model.dirty then
-                model.props.initialChecked
-            else
-                model.checked
-    in
-        div []
-            [ onlyIf (model.props.label /= "") (label [ for model.props.id ] [ text model.props.label ])
-            , input
-                [ type' model.props.type'
-                , name model.props.id
-                , placeholder model.props.placeholder
-                , checked initialChecked
-                , onCheck CheckboxChange
-                , onFocus CheckboxFocus
-                , onBlur CheckboxBlur
-                ]
-                []
-            , onlyIf (model.props.error /= "") (span [ style [ ( "color", "#c00" ) ] ] [ text model.props.error ])
+    div []
+        [ onlyIf (model.props.label /= "") (label [ for model.props.id ] [ text model.props.label ])
+        , input
+            [ type' model.props.type'
+            , name model.props.id
+            , placeholder model.props.placeholder
+            , checked model.checked
+            , onCheck CheckboxChange
+            , onFocus CheckboxFocus
+            , onBlur CheckboxBlur
             ]
+            []
+        , onlyIf (model.props.error /= "") (span [ style [ ( "color", "#c00" ) ] ] [ text model.props.error ])
+        ]

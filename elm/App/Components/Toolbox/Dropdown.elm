@@ -51,7 +51,7 @@ defaultProps =
 
 initialModel : Props -> Model
 initialModel props =
-    { value = ""
+    { value = props.initialValue
     , visited = False
     , touched = False
     , dirty = False
@@ -93,23 +93,16 @@ update msg model =
 view : Model -> Html Msg
 view model =
     let
-        initialValue : String
-        initialValue =
-            if model.value == "" && not model.dirty then
-                model.props.initialValue
-            else
-                model.value
-
         options : List (Html Msg)
         options =
-            renderOptions initialValue model.props.options
+            renderOptions model.value model.props.options
     in
         div []
             [ onlyIf (model.props.label /= "") (label [ for model.props.id ] [ text model.props.label ])
             , select
                 [ name model.props.id
                 , placeholder model.props.placeholder
-                , value initialValue
+                , value model.value
                 , onInput InputChange
                 , onFocus InputFocus
                 , onBlur InputBlur
@@ -120,15 +113,15 @@ view model =
 
 
 renderOptions : String -> Options -> List (Html Msg)
-renderOptions initialValue options =
+renderOptions value options =
     let
-        toggle index option =
-            if option.value == initialValue then
+        toggle option =
+            if option.value == value then
                 renderOption True option
             else
                 renderOption False option
     in
-        List.indexedMap toggle options
+        List.map toggle options
 
 
 renderOption : Bool -> Option -> Html a

@@ -43,7 +43,7 @@ defaultProps =
 
 initialModel : Props -> Model
 initialModel props =
-    { value = ""
+    { value = props.initialValue
     , visited = False
     , touched = False
     , dirty = False
@@ -84,25 +84,17 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    let
-        initialValue : String
-        initialValue =
-            if model.value == "" && not model.dirty then
-                model.props.initialValue
-            else
-                model.value
-    in
-        div []
-            [ onlyIf (model.props.label /= "") (label [ for model.props.id ] [ text model.props.label ])
-            , input
-                [ type' model.props.type'
-                , name model.props.id
-                , placeholder model.props.placeholder
-                , value initialValue
-                , onInput InputChange
-                , onFocus InputFocus
-                , onBlur InputBlur
-                ]
-                []
-            , onlyIf (model.props.error /= "") (span [ style [ ( "color", "#c00" ) ] ] [ text model.props.error ])
+    div []
+        [ onlyIf (model.props.label /= "") (label [ for model.props.id ] [ text model.props.label ])
+        , input
+            [ type' model.props.type'
+            , name model.props.id
+            , placeholder model.props.placeholder
+            , value model.value
+            , onInput InputChange
+            , onFocus InputFocus
+            , onBlur InputBlur
             ]
+            []
+        , onlyIf (model.props.error /= "") (span [ style [ ( "color", "#c00" ) ] ] [ text model.props.error ])
+        ]

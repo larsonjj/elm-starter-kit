@@ -53,7 +53,7 @@ defaultProps =
 
 initialModel : Props -> Model
 initialModel props =
-    { value = ""
+    { value = props.initialValue
     , visited = False
     , touched = False
     , dirty = False
@@ -95,16 +95,9 @@ update msg model =
 view : Model -> Html Msg
 view model =
     let
-        initialValue : String
-        initialValue =
-            if model.value == "" && not model.dirty then
-                model.props.initialValue
-            else
-                model.value
-
         radios : List (Html Msg)
         radios =
-            renderOptions ( model.props.name, initialValue ) model.props.options
+            renderOptions ( model.props.name, model.value ) model.props.options
     in
         div []
             [ onlyIf (model.props.label /= "") (label [ for model.props.id ] [ text model.props.label ])
@@ -114,10 +107,10 @@ view model =
 
 
 renderOptions : ( String, String ) -> Options -> List (Html Msg)
-renderOptions ( id', initialValue ) options =
+renderOptions ( id', value ) options =
     let
         toggle index option =
-            if option.value == initialValue then
+            if option.value == value then
                 renderOption ( id', index, True ) option
             else
                 renderOption ( id', index, False ) option

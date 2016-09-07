@@ -25,76 +25,69 @@ type alias Model =
     }
 
 
-inputDefaultProps : Input.Props
-inputDefaultProps =
-    Input.defaultProps
-
-
-checkboxDefaultProps : Checkbox.Props
-checkboxDefaultProps =
-    Checkbox.defaultProps
-
-
-dropdownDefaultProps : Dropdown.Props
-dropdownDefaultProps =
-    Dropdown.defaultProps
-
-
-radioGroupDefaultProps : RadioGroup.Props
-radioGroupDefaultProps =
-    RadioGroup.defaultProps
-
-
 initialModel : Model
 initialModel =
-    { pageName = "Profile"
-    , submitted = False
-    , error = ""
-    , firstNameModel =
-        Input.initialModel
-            { inputDefaultProps
-                | label = "First Name"
-                , id = "first-name"
-                , initialValue = "Jake"
-            }
-    , lastNameModel =
-        Input.initialModel
-            { inputDefaultProps
-                | label = "Last Name"
-                , id = "last-name"
-                , initialValue = "Larson"
-            }
-    , employedModel =
-        Checkbox.initialModel
-            { checkboxDefaultProps
-                | label = "Employed"
-                , id = "employed"
-                , initialChecked = False
-            }
-    , platformModel =
-        Dropdown.initialModel
-            { dropdownDefaultProps
-                | label = "Employed"
-                , id = "employed"
-                , options =
-                    [ { label = "Select platform", value = "" }
-                    , { label = "iOS", value = "ios" }
-                    , { label = "Android", value = "android" }
-                    ]
-            }
-    , genderModel =
-        RadioGroup.initialModel
-            { radioGroupDefaultProps
-                | label = "Gender"
-                , name = "gender"
-                , initialValue = "male"
-                , options =
-                    [ { label = "Male", value = "male" }
-                    , { label = "Female", value = "female" }
-                    , { label = "Other", value = "other" }
-                    ]
-            }
-    }
+    let
+        inputDefaultProps =
+            Input.defaultProps
+
+        checkboxDefaultProps =
+            Checkbox.defaultProps
+
+        dropdownDefaultProps =
+            Dropdown.defaultProps
+
+        radioGroupDefaultProps =
+            RadioGroup.defaultProps
+    in
+        { pageName = "Profile"
+        , submitted = False
+        , error = ""
+        , firstNameModel =
+            Input.initialModel
+                { inputDefaultProps
+                    | label = "First Name"
+                    , id = "first-name"
+                    , initialValue = "Jake"
+                }
+        , lastNameModel =
+            Input.initialModel
+                { inputDefaultProps
+                    | label = "Last Name"
+                    , id = "last-name"
+                    , initialValue = "Larson"
+                }
+        , employedModel =
+            Checkbox.initialModel
+                { checkboxDefaultProps
+                    | label = "Employed"
+                    , id = "employed"
+                    , initialChecked = False
+                }
+        , platformModel =
+            Dropdown.initialModel
+                { dropdownDefaultProps
+                    | label = "Employed"
+                    , id = "employed"
+                    , options =
+                        [ { label = "Select platform", value = "" }
+                        , { label = "iOS", value = "ios" }
+                        , { label = "Android", value = "android" }
+                        ]
+                }
+        , genderModel =
+            RadioGroup.initialModel
+                { radioGroupDefaultProps
+                    | label = "Gender"
+                    , name = "gender"
+                    , initialValue = "male"
+                    , options =
+                        [ { label = "Male", value = "male" }
+                        , { label = "Female", value = "female" }
+                        , { label = "Other", value = "other" }
+                        ]
+                }
+        }
 
 
 
